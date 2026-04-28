@@ -11,18 +11,22 @@
         <li class="nav-item">
           <a class="nav-link" href="{{path ('app_product_index')}}">Boutique</a>
         </li>
+      {% if app.user %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{path ('app_logout')}}">Deconnexion</a>
+        </li>
+      {% else %}            
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Connexion</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{path ('app_login')}}">Connexion</a>
             <a class="dropdown-item" href="{{path ('app_register')}}">Enregistrement</a>
-
-
           </div>
         </li>
+      {% endif %}
       </ul>
       <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
+        <input class="form-control me-sm-2" type="search" placeholder="Rcherche">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">🔎</button>
       </form>
     </div>
