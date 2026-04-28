@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&display=swap');
+.hero-image {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/image/header.webp'); /* adapte le chemin */
+    background-size: cover;
+    background-position: start;
+    height: 200px; /* hauteur du header */
+    position: relative;
+}
