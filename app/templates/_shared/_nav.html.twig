@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{path ('app_product_index')}}">
+        <img src="{{asset('images/layout/logo.png')}}">
+    </a>
+    <button class="navbar-toggler bg-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon "></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor04">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{path ('app_product_index')}}">Boutique</a>
+        </li>
+      {% if app.user %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{path ('app_logout')}}">Deconnexion</a>
+        </li>
+      {% else %}            
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Connexion</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{path ('app_login')}}">Connexion</a>
+            <a class="dropdown-item" href="{{path ('app_register')}}">Enregistrement</a>
+          </div>
+        </li>
+      {% endif %}
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Rcherche">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">🔎</button>
+      </form>
+    </div>
+  </div>
+</nav>
