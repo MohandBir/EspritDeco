@@ -10,11 +10,8 @@
     <div class="card mb-3 h-100 ">
         <h3 class="card-header d-lg-flex justify-content-center align-items-center text-center min-h-lg-80" >{{ product.title }}</h3>
         {% if product.images is not empty %}
-            {% for image in product.images %}
-                {% if image.isPrincipal === true %}
-                    <img src="{{ asset(image.path) }}" class="card-img-top" alt="{{ image.alt }}" height="400px">
-                {% endif %}
-            {% endfor %}
+            {% set image = product.images|first %}
+            <img src="{{ asset(image.path) }}" class="card-img-top" alt="{{ image.alt }}" height="400px">
         {% else %}
             <div class="bg-light d-flex align-items-center justify-content-center"
                 style="height: 200px;">

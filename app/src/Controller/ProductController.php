@@ -13,7 +13,7 @@ final class ProductController extends AbstractController
     public function index(ProductRepository $productRepo): Response
     {
         $products = $productRepo->findWithCategoryAndImage();
-// dd($products);
+
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
