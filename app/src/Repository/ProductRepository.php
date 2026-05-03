@@ -16,9 +16,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
+
    public function findWithCategoryAndImage(): array
    {
         return $this->createQueryBuilder('p')
@@ -29,6 +27,21 @@ class ProductRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult()
        ;
+   }
+
+   public function findOneWithCategoryAndImage(int $id = 0): ?Product
+   { 
+        return ($id) ? $this->createQueryBuilder('p')
+           ->leftJoin('p.category', 'c')
+           ->addSelect('c')
+           ->leftJoin('p.images', 'i')
+           ->addSelect('i')
+           ->where('p.id = :id')
+           ->setParameter('id', $id)
+           ->getQuery()
+           ->getOneOrNullResult()
+        : null
+        ;
    }
 
 //    public function findOneBySomeField($value): ?Product

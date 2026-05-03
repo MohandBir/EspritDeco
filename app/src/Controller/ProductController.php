@@ -17,5 +17,15 @@ final class ProductController extends AbstractController
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
+
+        }
+    #[Route('/show/{id}', name: 'app_product_show', requirements: ['id' => '\d+'], defaults: ['id' => null])]
+    public function show(?int $id, ProductRepository $productRepo): Response
+    {
+        $product = $productRepo->findOneWithCategoryAndImage((int) $id);
+
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
+        ]);
     }
 }

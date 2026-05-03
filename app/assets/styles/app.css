@@ -2,3 +2,21 @@
 @import "./bootswatch.css";
 @import "./_nav.css";
 @import "./_header.css";
+
+.btn-gradient {
+    min-height: 40px;
+    min-width: 250px;
+    background-color: #4e5d6c;
+    border-radius: 6px;
+    border-top: 3px solid rgb(223 105 25) ;
+    border-left: 3px solid rgb(223 105 25);
+    border-right: 3px solid rgb(32 55 76);
+    border-bottom: 3px solid rgb(32 55 76);
+    padding: 0;
+}
+.btn-gradient:hover {   
+    background-color: #414d56; 
+}
+.btn-price {
+    min-width: 250px;
+}
