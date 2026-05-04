@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="row g-3 d-flex justify-content-center">
+<div class="row g-3 d-flex justify-content-center mb-3">
     <div class="col-12 col-md-12 col-lg-12">
         <div class="card mb-3 h-100 px-3 py-3">
             <div class=" card-header d-flex flex-column justify-content-center align-items-center text-center">
@@ -52,8 +52,17 @@
             </div>
         </div>
     </div>
-
 </div>
+<div class="text-center mb-2">
+    {% set referer = app.request.headers.get('referer') %}
 
+    {% if referer and referer starts with app.request.scheme ~ '://' ~ app.request.host %}
+        <a href="{{ referer }}" class="btn btn-primary" >Retour</a>
+    {% elseif is_granted('ROLE_ADMIN') %}
+        <a href="{{path('app_admin_product_index')}}" class="btn btn-primary" >Retour</a>
+    {% else %}
+        <a href="{{path('app_product_index')}}" class="btn btn-primary" >Retour</a>        
+    {% endif %}
+</div>
 
 {% endblock %}

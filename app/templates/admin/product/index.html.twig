@@ -19,9 +19,9 @@
     </thead>
     <tbody>
         {% for product in products %}
-            <tr class="table-{{product.id % 2 ? 'light' : 'secondary'}} ">
+            <tr class="table-{{loop.index % 2 ? 'light' : 'secondary'}} ">
                 <th class="text-center">
-                    <a href="{{path('app_admin_product_show', {id: product.id})}}" class="text-decoration-none">{{ product.title }}</a>
+                    <a href="{{path('app_product_show', {id: product.id})}}" class="text-decoration-none">{{ product.title }}</a>
                 </th>
                 <td class="text-center ">{{ product.price }}</td>
                 <td class="text-center">{{ product.category.name }}</td>
