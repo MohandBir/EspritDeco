@@ -28,6 +28,6 @@ class CategoryFixtures extends Fixture
 
             $manager->persist($category);
         }
-        //$manager->flush();
+        $manager->flush();
     }
 }
