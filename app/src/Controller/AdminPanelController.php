@@ -14,7 +14,7 @@ final class AdminPanelController extends AbstractController
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('admin/index.html.twig');
