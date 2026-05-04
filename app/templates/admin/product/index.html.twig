@@ -15,12 +15,14 @@
             <th class="text-center">Categorie</th>
             <th class="text-center">Modifier</th>
             <th class="text-center">Supprimer</th>
-        </tr>-5
+        </tr>
     </thead>
     <tbody>
         {% for product in products %}
             <tr class="table-{{product.id % 2 ? 'light' : 'secondary'}} ">
-                <th class="text-center">{{ product.title }}</th>
+                <th class="text-center">
+                    <a href="{{path('app_admin_product_show', {id: product.id})}}" class="text-decoration-none">{{ product.title }}</a>
+                </th>
                 <td class="text-center ">{{ product.price }}</td>
                 <td class="text-center">{{ product.category.name }}</td>
                 <td class="text-center">​✏️​</td>
@@ -29,4 +31,7 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="text-center mb-2">
+    <a href="{{path('app_admin_index')}}" class="btn btn-primary" >Retour</a>
+</div>
 {% endblock %}
