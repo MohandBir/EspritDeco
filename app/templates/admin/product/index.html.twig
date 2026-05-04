@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminProductController!{% endblock %}
+
+{% block body %}
+<h1 class="text-center py-5">Gestion des produits</h1>
+<div class="text-center mb-3">
+    <a href="" class="btn-primary rounded-4 px-1 text-decoration-none">➕</a>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">Titre</th>
+            <th class="text-center">Prix</th>
+            <th class="text-center">Categorie</th>
+            <th class="text-center">Modifier</th>
+            <th class="text-center">Supprimer</th>
+        </tr>-5
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr class="table-{{product.id % 2 ? 'light' : 'secondary'}} ">
+                <th class="text-center">{{ product.title }}</th>
+                <td class="text-center ">{{ product.price }}</td>
+                <td class="text-center">{{ product.category.name }}</td>
+                <td class="text-center">​✏️​</td>
+                <td class="text-center">​❌</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -29,6 +29,16 @@ class ProductRepository extends ServiceEntityRepository
        ;
    }
 
+   public function findWithCategory(): array
+   {
+        return $this->createQueryBuilder('p')
+           ->leftJoin('p.category', 'c')
+           ->addSelect('c')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
    public function findOneWithCategoryAndImage(int $id = 0): ?Product
    { 
         return ($id) ? $this->createQueryBuilder('p')
@@ -43,6 +53,7 @@ class ProductRepository extends ServiceEntityRepository
         : null
         ;
    }
+
 
 //    public function findOneBySomeField($value): ?Product
 //    {
