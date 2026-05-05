@@ -16,8 +16,10 @@
 <h1 class="text-center py-5">Ajouter un produit</h1>
 
 {{ form_start(form)}}
-{{ form_widget(form)}}
-<input type="submit" value="Enregistrer">
+    {{ form_widget(form)}}
+    <div class="text-end mb-5">
+        <input type="submit" value="Enregistrer" class="btn btn-primary">
+    </div>
 {{ form_end(form)}}
 
 <div class="text-center mb-2">
