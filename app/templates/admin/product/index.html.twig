@@ -3,6 +3,16 @@
 {% block title %}produits{% endblock %}
 
 {% block body %}
+{# affichage des messages #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+    <div class="alert alert-dismissible alert-{{label}}">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <p class="text-center mb-0"> {{message}}</p>
+    </div>
+    {% endfor %}
+{% endfor %}
+
 <h1 class="text-center py-5">Gestion des produits</h1>
 <div class="text-center mb-3">
     <a href="#" class="btn-primary rounded-4 px-1 text-decoration-none">➕</a>
@@ -19,19 +29,50 @@
     </thead>
     <tbody>
         {% for product in products %}
-            <tr class="table-{{loop.index % 2 ? 'light' : 'secondary'}} ">
-                <th class="text-center">
-                    <a href="{{path('app_product_show', {id: product.id})}}" class="text-decoration-none">{{ product.title }}</a>
-                </th>
-                <td class="text-center ">{{ product.price }}</td>
-                <td class="text-center">{{ product.category.name }}</td>
-                <td class="text-center">​✏️​</td>
-                <td class="text-center">​❌</td>
-            </tr>
+        <tr class="table-{{loop.index % 2 ? 'light' : 'secondary'}} ">
+            <th class="text-center">
+                <a href="{{path('app_product_show', {id: product.id})}}" class="text-decoration-none">{{ product.title
+                    }}</a>
+            </th>
+            <td class="text-center ">{{ product.price }}</td>
+            <td class="text-center">{{ product.category.name }}</td>
+            <td class="text-center">​✏️​</td>
+            <td class="text-center">
+                <button class="btn " data-bs-toggle="modal" data-bs-target="#deleteModal-{{ product.id }}">
+                    ❌
+                </button>
+                <div class="modal fade" id="deleteModal-{{ product.id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title text-warning">Suppression</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body text-start">
+                                Êtes-vous sûr de vouloir supprimer cet élément ?
+                            </div>
+
+                            <div class="modal-footer">
+                                <form action="{{path('app_admin_product_delete', {id: product.id})}}" method="post">
+                                    <input type="hidden" name="token"
+                                        value="{{ csrf_token('delete-product' ~ product.id)  }}">
+                                    <button class="btn btn-primary">​Supprimer</button>
+                                </form>
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Annuler
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
 <div class="text-center mb-2">
-    <a href="{{path('app_admin_index')}}" class="btn btn-primary" >Retour</a>
+    <a href="{{path('app_admin_index')}}" class="btn btn-primary">Retour</a>
 </div>
 {% endblock %}
