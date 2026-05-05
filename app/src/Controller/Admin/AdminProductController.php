@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Repository\ImageRepository;
 use App\Repository\ProductRepository;
+use App\Service\ImageHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ final class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/delete/{id}', name: 'app_admin_product_delete', requirements: ['id' => '\d+'], defaults: ['id' => null])]   
-    public function delete(?Product $product, Request $request, ImageRepository $imageRepo)
+    public function delete(?Product $product, Request $request, ImageHandler $imageHandler)
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute($this->getUser() ? 'app_product_index' : 'app_login');
@@ -38,15 +39,7 @@ final class AdminProductController extends AbstractController
 
         if ($product && $this->isCsrfTokenValid('delete-product'. $product->getId(), $submittedToken)) {
             // suppression des images : 
-            $images = $imageRepo->findBy(['product' => $product]);
-            foreach ($images as $image) {
-                $imagePath = $this->getParameter('IMAGE_DIR') . $image->getPath();
-
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
-                }
-                $this->em->remove($image);
-            }
+            $imageHandler->deleteImages($product);
             
             $this->em->remove($product);
             $this->em->flush();
