@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
-use App\Repository\ImageRepository;
+use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\ImageHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminProductController extends AbstractController
 {
-    public function __construct(private ProductRepository $ProductRepo, private EntityManagerInterface $em) 
+    public function __construct(
+        private ProductRepository $ProductRepo,
+        private EntityManagerInterface $em,
+    ) 
     {
     }
 
@@ -30,7 +33,7 @@ final class AdminProductController extends AbstractController
     }
 
     #[Route('/admin/product/delete/{id}', name: 'app_admin_product_delete', requirements: ['id' => '\d+'], defaults: ['id' => null])]   
-    public function delete(?Product $product, Request $request, ImageHandler $imageHandler)
+    public function delete(?Product $product, ImageHandler $imageHandler, Request $request)
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute($this->getUser() ? 'app_product_index' : 'app_login');
@@ -51,5 +54,19 @@ final class AdminProductController extends AbstractController
 
         return $this->redirectToRoute('app_admin_product_index');
 
+    }
+
+    #[Route('/admin/product/add', name: 'app_admin_product_add')]
+    public function add(Request $request): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute($this->getUser() ? 'app_product_index' : 'app_login');
+        }
+        $form = $this->createForm(ProductType::class);
+        $form->handleRequest($request);
+
+        return $this->render('admin/product/add.html.twig', [
+           'form' => $form->createView(), 
+        ]);
     }
 }
