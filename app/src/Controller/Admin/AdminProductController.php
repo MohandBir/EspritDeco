@@ -103,8 +103,6 @@ final class AdminProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product = $form->getData();
-
             // gérer l'image téléchargée
             $imageFiles = $form->get('images')->getData();
             foreach ($imageFiles as $imageFile) {
