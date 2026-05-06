@@ -15,7 +15,7 @@
         </h3>
         {% if product.images is not empty %}
             {% set image = product.images|first %}
-            <img src="{{ asset(image.path) }}" class="card-img-top" alt="{{ image.alt }}" height="400px">
+            <img src="{{ asset(image_dir ~ '/' ~ image.name) }}" class="card-img-top" alt="{{ image.alt }}" height="400px">
         {% else %}
             <div class="bg-light d-flex align-items-center justify-content-center"
                 style="height: 200px;">

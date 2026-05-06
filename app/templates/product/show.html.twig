@@ -19,7 +19,7 @@
                 <div class="carousel-inner">
                     {% for image in product.images %}
                     <div class="carousel-item {{ image.isPrincipal === true ? 'active' : ''}}">
-                        <img src="{{ asset(image.path) }}" class="d-block mx-auto my-5" alt="{{image.alt}}" width="150px" height="150px" >
+                        <img src="{{ asset(image_dir ~ '/' ~ image.name) }}" class="d-block mx-auto my-5" alt="{{image.alt}}" width="150px" height="150px" >
                     </div>
                     {% endfor %}
                 </div>
