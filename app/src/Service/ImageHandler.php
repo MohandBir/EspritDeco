@@ -17,7 +17,7 @@ class ImageHandler
     {
         foreach ($product->getImages() as $image) 
         {
-            $imagePath = $this->imageDir . $image->getPath();
+            $imagePath = $this->imageDir . $image->getName();
 
             if (file_exists($imagePath)) {
                 unlink($imagePath);
