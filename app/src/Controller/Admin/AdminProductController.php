@@ -91,4 +91,36 @@ final class AdminProductController extends AbstractController
            'form' => $form->createView(), 
         ]);
     }
+
+    #[Route('/admin/product/update/{id}', name: 'app_admin_product_update', requirements: ['id' => '\d+'], defaults: ['id' => null])]
+    public function update(?Product $product, Request $request): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute($this->getUser() ? 'app_product_index' : 'app_login');
+        }
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product = $form->getData();
+
+            // gérer l'image téléchargée
+            $imageFiles = $form->get('images')->getData();
+            foreach ($imageFiles as $imageFile) {
+                $image = $this->imageHandler->handleUploadedImage($imageFile, $product);
+                $this->em->persist($image);
+            }
+
+            $this->em->flush();
+            $this->addFlash('success', 'Le Produit a été modifié avec succès.');
+            
+            return $this->redirectToRoute('app_admin_product_index');
+        }
+
+        return $this->render('admin/product/add.html.twig', [
+           'form' => $form->createView(), 
+           'isUpdate' =>  true,
+        ]);
+    }
 }
