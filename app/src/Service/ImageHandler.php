@@ -15,23 +15,16 @@ class ImageHandler
         private EntityManagerInterface $em,
     ) {}
 
-    public function deleteImages(Product $product)
+    public function deleteImages(Image $image)
     {
-        foreach ($product->getImages() as $image) 
-        {
-            $imagePath = $this->imageDir . $image->getName();
-
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
-            $this->em->remove($image);
+        $imagePath = $this->imageDir . $image->getName();
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
     }
 
-    public function handleUploadedImage(array $imageFiles, Product $product)
-    {
-        foreach ($imageFiles as $imageFile) {
-            
+    public function handleUploadedImage(UploadedFile $imageFile, Product $product)
+    {       
             $newFileName = 'img' . uniqid() . '.' .  $imageFile->guessExtension();
             $imageFile->move($this->imageDir, $newFileName);
     
@@ -41,10 +34,6 @@ class ImageHandler
                 ->setIsPrincipal(1)
                 ->setProduct($product)
             ;
-            $this->em->persist($image);
-        }
-
-    }
-
-    
+            return $image;
+    }  
 }
