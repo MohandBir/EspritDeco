@@ -36,7 +36,9 @@
             </th>
             <td class="text-center ">{{ product.price }}</td>
             <td class="text-center">{{ product.category.name }}</td>
-            <td class="text-center">​✏️​</td>
+            <td class="text-center">
+                ​<a href="{{path('app_admin_product_update', {id: product.id})}}" class="text-decoration-none">✏️​</a>
+            </td>
             <td class="text-center">
                 <button class="btn " data-bs-toggle="modal" data-bs-target="#deleteModal-{{ product.id }}">
                     ❌
