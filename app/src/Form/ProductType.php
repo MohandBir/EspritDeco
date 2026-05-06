@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -62,14 +64,17 @@ class ProductType extends AbstractType
             ->add('images',FileType::class, [
                 'label' => '',
                 'mapped' => false,
+                'multiple' => true,
                 'required' => false,
                 'constraints' => [
-                    new Image([
-                        'maxSize' => '2M',
-                        'mimeTypes' => ['image/jpg','image/jpeg','image/png','image/webp'],
-                        'maxSizeMessage' => 'l\'image ne doit pas dépasse 2M',
-                        'mimeTypesMessage' => 'les format spportées : jpg, jpeg, png, webp',
-                        'uploadErrorMessage' => 'Erreur lors de chargement de l\'image',
+                    new All([
+                        new Image([
+                            'maxSize' => '2M',
+                            'mimeTypes' => ['image/jpg','image/jpeg','image/png','image/webp'],
+                            'maxSizeMessage' => 'l\'image ne doit pas dépasse 2M',
+                            'mimeTypesMessage' => 'les format spportées : jpg, jpeg, png, webp',
+                            'uploadErrorMessage' => 'Erreur lors de chargement de l\'image',
+                        ])
                     ])
                 ]
             ])
