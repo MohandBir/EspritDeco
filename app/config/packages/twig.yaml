@@ -4,7 +4,7 @@ twig:
     
     globals:
         image_dir: '/images/product'
-
+        cartHandler: '@App\Service\CartHandler'
 when@test:
     twig:
         strict_variables: true

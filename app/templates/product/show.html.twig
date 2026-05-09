@@ -48,7 +48,7 @@
             <div
                 class="card-footer  d-flex flex-column flex-md-row justify-content-around align-items-center gap-2 ">
                 <span class="btn-price btn btn-primary rounded-4 d-block w-25 ">{{product.price}} €</span>
-                <button class="btn-gradient rounded-5 d-block w-25 text-white">Ajouter au panier</button>
+                <a href="{{path('app_cart_add', {id: product.id})}}" class="btn-gradient rounded-5 d-block w-25 text-white text-center text-decoration-none pt-1">Ajouter au panier</a>
             </div>
         </div>
     </div>
