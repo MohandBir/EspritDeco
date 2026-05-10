@@ -6,31 +6,45 @@
     <div class="offcanvas-body">
         <div class="">
             <table class="table table-hover">
-                <tbody>
+                <tbody id="cartLines">
                     {# for #}
                     {% if cartHandler.getCartProducts() is not empty %}
-                    {% for product in cartHandler.getCartProducts() %}                    
-                        <tr class="table-light">
-                            <td>{{product.title is defined ? product.title : ''}}</td>
+                   
+                        {% for product in cartHandler.getCartProducts() %} 
+                            <tr class="table-light">
+                                <td>{{product.title}}</td>
+                                <td>
+                                    <span class="btn btn-primary rounded-4 py-0 px-2 decreaseBtn"
+                                    data-id="{{ product.id }}"
+                                    data-price="{{ product.price }}"
+                                    >-</span>
+                                    <span class="qtyNumber">{{cartHandler.getCart()[product.id]}}</span>
+                                    <span class="btn btn-primary rounded-4 py-0 px-2 increaseBtn"
+                                    data-id="{{product.id}}"
+                                    data-price="{{product.price}}"
+                                    >+</span>
+                                </td>
+                                <td class="price">{{cartHandler.getCart()[product.id] * product.price}}</td>
+                            </tr>
+                        {% endfor %}
+                    
+                        {# end block #}
+                        <tr>
                             <td>
-                                <span class="btn btn-primary rounded-4 py-0 px-2">-</span>
-                                <span class="">{{cartHandler.getCart()[product.id]}}</span>
-                                <span class="btn btn-primary rounded-4 py-0 px-2">+</span>
+                                <a href="" class="btn btn-primary rounded-4 py-0 px-1" id="clearCart"> Vider la panier</a>
                             </td>
-                            <td>{{cartHandler.getCart()[product.id] * product.price}}</td>
+                            <td>TOTAL</td>
+                            <td> <span id="totalPrice">{{cartHandler.getTotalPrice()}}</span> €</td>
                         </tr>
-                    {% endfor %}
-                    {% endif %}
-                    {# end block #}
-                    <tr>
-                        <td>
-                            <a href="" class="btn btn-primary rounded-4 py-0 px-1"> Vider la panier</a>
-                        </td>
-                        <td>TOTAL</td>
-                        <td>{{cartHandler.getTotalPrice()}} €</td>
-                    </tr>
+                        {% else %}
+                            <tr class="table-light">
+                                <td class="text-center fs-5"> Votre panier est vide 🚫</td>           
+                            </tr>
+                        {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+ 

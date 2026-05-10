@@ -19,12 +19,24 @@ class CartHandler
         return $this->requestStack->getCurrentRequest()->getSession();
     }
 
-    public function addCart(string $id) : void
+    public function addToCart(string $id) : void
     {
         $cart = $this->getSession()->get('cart', [] );
 
         if (isset($cart[$id])) {
             $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+        $this->getSession()->set('cart', $cart);
+    }
+
+    public function decrease(string $id) : void
+    {
+        $cart = $this->getSession()->get('cart', [] );
+
+        if (isset($cart[$id]) && $cart[$id] > 1) {
+            $cart[$id]--;
         } else {
             $cart[$id] = 1;
         }
@@ -52,8 +64,8 @@ class CartHandler
     public function getTotalPrice(): float
     {
         $cart = $this->getSession()->get('cart', []);
+        $totalPrice  = 0;
         if (!empty($cart)) {
-            $totalPrice  = 0;
             foreach ($cart as $key => $value) {
                 $product = $this->productRepo->find($key);
                 $totalPrice += $product->getPrice() * $value;
@@ -61,5 +73,11 @@ class CartHandler
         }
         return $totalPrice;
     }
+
+    public function clearCart(): void
+    {
+        $this->getSession()->set('cart', []);
+    }
+
 
 }
