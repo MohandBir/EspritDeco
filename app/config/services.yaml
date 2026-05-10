@@ -25,3 +25,6 @@ services:
     App\Service\ImageHandler:
         arguments:
             $imageDir: '%IMAGE_DIR%'
+ 
+    App\Service\CartHandler:
+        public: true
