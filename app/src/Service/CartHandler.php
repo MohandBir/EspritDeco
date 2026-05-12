@@ -2,7 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Order;
+use App\Entity\OrderLine;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartHandler 
@@ -13,7 +16,15 @@ class CartHandler
     )
     {
     }
+    public function getSavedCart(array $orderLines)
+    {
+        $cart = [];
+        foreach ($orderLines as $orderLine) {
 
+            $cart[$orderLine->getProduct()->getId()] = $orderLine->getQuantity();
+        }
+        return $cart;
+    }
     private function getSession()
     {
         return $this->requestStack->getCurrentRequest()->getSession();
@@ -22,7 +33,7 @@ class CartHandler
     public function addToCart(string $id) : void
     {
         $cart = $this->getSession()->get('cart', [] );
-
+        
         if (isset($cart[$id])) {
             $cart[$id]++;
         } else {
@@ -46,6 +57,11 @@ class CartHandler
     public function getCart()
     {
         return $this->getSession()->get('cart', []);
+    }
+
+    public function setCart(array $cart)
+    {
+        $this->getSession()->set('cart', $cart);
     }
 
     public function getCartProducts(): array
