@@ -2,18 +2,21 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Order;
+use App\Entity\Cart;
+use App\Entity\CartLine;
 use App\Entity\User;
-use App\Repository\OrderRepository;
-use App\Service\OrderHandler;
+use App\Repository\CartRepository;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class LoginSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private OrderRepository $orderRepo,
-        private OrderHandler $orderHandler,
+        private CartRepository $cartRepo,
+        private ProductRepository $productRepo,
+        private EntityManagerInterface $em,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -26,18 +29,47 @@ class LoginSubscriber implements EventSubscriberInterface
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $user = $event->getUser();
+        if (!$user instanceof User) return;
 
-        if (!$user instanceof User) {
-            return;
+        $session = $event->getRequest()->getSession();
+        $sessionCart = $session->get('cart', []);
+
+        if (empty($sessionCart)) return;
+
+        $cart = $this->cartRepo->findOpenCartWithLines($user);
+        if (!$cart) {
+            $cart = (new Cart())->setUser($user)->setStatus(Cart::OPEN);
+            $this->em->persist($cart);
         }
 
-        $savedOrder = $this->orderRepo->findOneBy([
-            'user' => $user,
-            'status' => Order::PENDING_PAYEMENT,
-        ]);
+        foreach ($sessionCart as $productId => $qty) {
+            $cartLine = $this->findCartLine($cart, (int) $productId);
 
-        if ($savedOrder) {
-            $this->orderHandler->loadOrderCart($savedOrder);
+            if ($cartLine) {
+                $cartLine->setQuantity($cartLine->getQuantity() + $qty);
+            } else {
+                $product = $this->productRepo->find($productId);
+                if (!$product) continue;
+
+                $cartLine = (new CartLine())
+                    ->setCart($cart)
+                    ->setProduct($product)
+                    ->setQuantity($qty);
+                $this->em->persist($cartLine);
+            }
         }
+
+        $this->em->flush();
+        $session->remove('cart');
+    }
+
+    private function findCartLine(Cart $cart, int $productId): ?CartLine
+    {
+        foreach ($cart->getCartLines() as $line) {
+            if ($line->getProduct()->getId() === $productId) {
+                return $line;
+            }
+        }
+        return null;
     }
 }
