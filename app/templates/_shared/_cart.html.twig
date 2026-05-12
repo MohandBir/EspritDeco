@@ -43,9 +43,11 @@
                         {% endif %}
                 </tbody>
             </table>
-            <div class="w-25">
-                <a href="{{ path('app_adress_index') }}" class="d-block text-decoration-none btn btn-primary w-0"> Payer</a>
-            </div>
+            {% if cartHandler.getCartProducts() is not empty %}
+                <div class="w-25">
+                    <a href="{{path('app_order_addAdress')}}" class="d-block text-decoration-none btn btn-primary w-0"> Payer</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

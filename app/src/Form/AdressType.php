@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AdressType extends AbstractType
 {
@@ -19,6 +20,7 @@ class AdressType extends AbstractType
         $builder
             ->add('fullname', TextType::class, [
                 'label' => 'Nom et Prénom',
+        
             ])
             ->add('street', TextType::class, [
                 'label' => 'Rue'

@@ -11,6 +11,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`order`')]
 class Order
 {
+    const PENDING_PAYEMENT = 'pending_payment';
+    const PAID = 'paid';
+    const SHIPPED = 'shipped';
+    const DELIVERED = 'delivered';
+    const CANCELED = 'canceled';
+    const TRANSLATED_STATUS = [
+        self::PENDING_PAYEMENT => 'Attente de payement',
+        self::PAID => 'Payée',
+        self::SHIPPED => 'Expédiée',
+        self::DELIVERED => 'Livrée',
+        self::CANCELED => 'Annulée',
+    ];
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -141,5 +155,10 @@ class Order
         $this->adress = $adress;
 
         return $this;
+    }
+
+    public function getTranslatedStatus()
+    {
+        return self::TRANSLATED_STATUS[$this->status];
     }
 }
