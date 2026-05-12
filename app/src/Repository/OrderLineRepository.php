@@ -19,17 +19,17 @@ class OrderLineRepository extends ServiceEntityRepository
     //    /**
     //     * @return OrderLine[] Returns an array of OrderLine objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('o.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       public function findWithProduct($order): array
+       {
+           return $this->createQueryBuilder('o')
+           ->leftJoin('o.product', 'p' )
+           ->addSelect('p')
+           ->where('o.customerOrder = :order')
+           ->setParameter('order', $order)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 
     //    public function findOneBySomeField($value): ?OrderLine
     //    {

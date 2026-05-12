@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Ajouter une Adresse{% endblock %}
+{% block body %}
+<h1 class="text-center py-4">Adresse de livraison</h1>
+{{  form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="d-flex justify-content-end">
+        <input type="submit" value="Enregistrer" class="btn btn-primary ">
+    </div>
+{{  form_end(form) }}
+{% endblock %}
