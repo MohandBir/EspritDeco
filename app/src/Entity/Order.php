@@ -44,6 +44,9 @@ class Order
     #[ORM\OneToOne(mappedBy: 'customerOrder', cascade: ['persist', 'remove'])]
     private ?Adress $adress = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
     public function __construct()
     {
         $this->orderLines = new ArrayCollection();
@@ -128,6 +131,18 @@ class Order
                 $orderLine->setCustomerOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): static
+    {
+        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }

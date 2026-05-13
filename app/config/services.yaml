@@ -8,6 +8,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     IMAGE_DIR: '%kernel.project_dir%/public/images/product/'
+    stripe.public_key: '%env(STRIPE_PUBLIC_KEY)%'
+    stripe.secret_key: '%env(STRIPE_SECRET_KEY)%'
+    stripe.webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
+    mailer.from: '%env(MAILER_FROM)%'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -28,3 +32,17 @@ services:
  
     App\Service\CartHandler:
         public: true
+
+    App\Service\StripeService:
+        arguments:
+            $stripeSecretKey: '%stripe.secret_key%'
+            $stripePublicKey: '%stripe.public_key%'
+
+    App\Controller\WebhookController:
+        arguments:
+            $stripeWebhookSecret: '%stripe.webhook_secret%'
+        tags: ['controller.service_arguments']
+
+    App\Service\OrderMailer:
+        arguments:
+            $mailerFrom: '%mailer.from%'
