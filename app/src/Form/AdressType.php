@@ -3,14 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Adress;
-use App\Entity\Order;
-use Dom\Text;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class AdressType extends AbstractType
 {
@@ -19,15 +19,35 @@ class AdressType extends AbstractType
         $builder
             ->add('fullname', TextType::class, [
                 'label' => 'Nom et Prénom',
+                'constraints' => [
+                    new NotBlank(message: 'Le nom et prénom sont obligatoires.'),
+                    new Length(max: 100, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.'),
+                ],
             ])
             ->add('street', TextType::class, [
-                'label' => 'Rue'
+                'label' => 'Rue',
+                'constraints' => [
+                    new NotBlank(message: 'La rue est obligatoire.'),
+                    new Length(max: 255, maxMessage: 'La rue ne peut pas dépasser {{ limit }} caractères.'),
+                ],
             ])
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
+                'constraints' => [
+                    new NotBlank(message: 'Le code postal est obligatoire.'),
+                    new Positive(message: 'Code postal invalide'),
+                    new Length(
+                        min: 5, minMessage: 'Le code postal doit contenir {{ limit }} chiffre',
+                        max: 5, maxMessage: 'Le code postal doit contenir {{ limit }} chiffre',
+                    )
+                ],
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
+                'constraints' => [
+                    new NotBlank(message: 'La ville est obligatoire.'),
+                    new Length(max: 50, maxMessage: 'La ville ne peut pas dépasser {{ limit }} caractères.'),
+                ],
             ])
         ;
     }

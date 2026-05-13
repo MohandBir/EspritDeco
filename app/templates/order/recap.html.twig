@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de commande{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h2 class="mb-4">Récapitulatif de votre commande</h2>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-hover ">
+
+                <tbody>
+                    {% for line in order.orderLines %}
+                    <tr class="table-secondary">
+                        <td colspan="2">{{ line.product.title }}</td>
+                        <td>{{ line.quantity }} x {{ line.unitPrice }} €</td>
+                        <td>{{ line.unitPrice * line.quantity }} €</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="fw-bold">
+                        <td></td>
+                        <td colspan="2" class="text-light">Total</td>
+                        <td class="text-light">{{ order.totalAmount }} €</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="table-responsive mt-4">
+            <table class="table table-dark table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2">Adresse de livraison</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-light">{{ order.adress.fullname }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-light">{{ order.adress.street }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-light">{{ order.adress.zipCode }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-light">{{ order.adress.city }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{{ path('app_adress_edit', {id: order.adress.id}) }}" class="btn btn-secondary">
+                Modifier l'adresse de livraison
+            </a>
+            <a href="#" class="btn btn-primary">
+                Confirmer la commande
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
