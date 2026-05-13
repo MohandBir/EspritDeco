@@ -49,6 +49,16 @@ final class OrderController extends AbstractController
     #[Route('/order/recap/{id}', name: 'app_order_recap')]
     public function recap(Order $order): Response
     {
+        if ($order->getUser() !== $this->getUser()) {
+            $this->addFlash('danger', "Vous n'avez pas accès à cette commande.");
+            return $this->redirectToRoute('app_product_index');
+        }
+
+        if ($order->getStatus() !== Order::PENDING_PAYEMENT) {
+            $this->addFlash('danger', "Cette commande n'est plus disponible au paiement.");
+            return $this->redirectToRoute('app_product_index');
+        }
+
         return $this->render('order/recap.html.twig', [
             'order' => $order,
         ]);

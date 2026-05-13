@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande confirmée{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-lg-7 text-center py-5">
+        <div class="mb-4">
+            <span style="font-size: 64px;">✅</span>
+        </div>
+        <h2 class="mb-3">Paiement réussi !</h2>
+        <p class="lead text-muted mb-4">
+            Merci pour votre commande <strong>#{{ order.id }}</strong>.<br>
+            Un email de confirmation a été envoyé à <strong>{{ order.user.email }}</strong>.
+        </p>
+
+        <div class="card bg-dark text-light mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Récapitulatif</h5>
+                <table class="table table-dark table-sm mb-0">
+                    <tbody>
+                        {% for line in order.orderLines %}
+                        <tr>
+                            <td class="text-start">{{ line.product.title }}</td>
+                            <td>{{ line.quantity }} x {{ line.unitPrice }} €</td>
+                            <td class="text-end">{{ (line.unitPrice * line.quantity)|number_format(2, ',', ' ') }} €</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold">
+                            <td colspan="2" class="text-start">Total</td>
+                            <td class="text-end">{{ order.totalAmount|number_format(2, ',', ' ') }} €</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <a href="{{ path('app_product_index') }}" class="btn btn-primary">
+            Continuer mes achats
+        </a>
+    </div>
+</div>
+{% endblock %}

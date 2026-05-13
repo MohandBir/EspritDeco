@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+        .wrapper { max-width: 600px; margin: 30px auto; background: #fff; border-radius: 8px; overflow: hidden; }
+        .header { background: #212529; color: #fff; padding: 24px 32px; }
+        .header h1 { margin: 0; font-size: 22px; }
+        .body { padding: 32px; color: #333; }
+        .body p { line-height: 1.6; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f0f0f0; padding: 10px; text-align: left; font-size: 13px; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .total-row td { font-weight: bold; border-bottom: none; }
+        .footer { background: #f8f9fa; padding: 16px 32px; font-size: 12px; color: #888; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <h1>Esprit Déco — Confirmation de commande</h1>
+    </div>
+    <div class="body">
+        <p>Bonjour,</p>
+        <p>Votre paiement a bien été reçu. Voici le récapitulatif de votre commande <strong>#{{ order.id }}</strong> passée le {{ order.createdAt|date('d/m/Y à H:i') }}.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Qté</th>
+                    <th>Prix unitaire</th>
+                    <th>Sous-total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in order.orderLines %}
+                <tr>
+                    <td>{{ line.product.title }}</td>
+                    <td>{{ line.quantity }}</td>
+                    <td>{{ line.unitPrice }} €</td>
+                    <td>{{ (line.unitPrice * line.quantity)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3">Total</td>
+                    <td>{{ order.totalAmount|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><strong>Adresse de livraison :</strong><br>
+            {{ order.adress.fullname }}<br>
+            {{ order.adress.street }}<br>
+            {{ order.adress.zipCode }} {{ order.adress.city }}
+        </p>
+
+        <p>Merci pour votre achat !</p>
+        <p>L'équipe Esprit Déco</p>
+    </div>
+    <div class="footer">Esprit Déco — Cet email a été envoyé automatiquement, merci de ne pas y répondre.</div>
+</div>
+</body>
+</html>

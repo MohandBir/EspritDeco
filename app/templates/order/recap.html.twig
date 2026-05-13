@@ -57,8 +57,8 @@
             <a href="{{ path('app_adress_edit', {id: order.adress.id}) }}" class="btn btn-secondary">
                 Modifier l'adresse de livraison
             </a>
-            <a href="#" class="btn btn-primary">
-                Confirmer la commande
+            <a href="{{ path('app_payment_checkout', {id: order.id}) }}" class="btn btn-primary">
+                Confirmer et payer
             </a>
         </div>
     </div>
