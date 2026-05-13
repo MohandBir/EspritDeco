@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Form\AdressType;
 use App\Service\OrderHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +19,7 @@ final class OrderController extends AbstractController
         private EntityManagerInterface $em,
     ) {}
 
-    #[Route('/adress', name: 'app_order_addAdress')]
+    #[Route('/adress', name: 'app_order_addAdress', methods: ['POST'])]
     public function addAdress(Request $request, OrderHandler $orderHandler): Response
     {
         $form = $this->createForm(AdressType::class);
@@ -37,11 +38,19 @@ final class OrderController extends AbstractController
             $this->em->persist($adress);
             $this->em->flush();
 
-            return $this->redirectToRoute('app_product_index');
+            return $this->redirectToRoute('app_order_recap', ['id' => $order->getId()]);
         }
 
         return $this->render('order/add-adress.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/order/recap/{id}', name: 'app_order_recap')]
+    public function recap(Order $order): Response
+    {
+        return $this->render('order/recap.html.twig', [
+            'order' => $order,
         ]);
     }
 }

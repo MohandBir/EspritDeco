@@ -11,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`order`')]
 class Order
 {
+    const PENDING_PAYEMENT = 'pending_payment';
+    const PAID             = 'paid';
+    const SHIPPED          = 'shipped';
+    const DELIVERED        = 'delivered';
+    const CANCELED         = 'canceled';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
