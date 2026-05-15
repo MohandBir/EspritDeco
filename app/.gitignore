@@ -8,7 +8,7 @@
 /var/
 /vendor/
 ###< symfony/Fixtures ###
-src/DataFixtures/UserFixtures.php
+/src/DataFixtures/UserFixtures.php
 ###> phpunit/phpunit ###
 /phpunit.xml
 /.phpunit.cache/
