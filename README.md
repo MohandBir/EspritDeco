@@ -30,7 +30,6 @@ Gestion complète du catalogue, panier, commandes et paiement en ligne.
 - Gestion des catégories et des utilisateurs
 
 ## 🚀 Installation
-
 ### 1. Prérequis — Docker Desktop
 
 > Docker Desktop est nécessaire pour lancer le projet.
@@ -56,21 +55,20 @@ sudo systemctl start docker
 ### 2. Cloner le projet
 
 ```bash
-git clone https://github.com/MohandBir/EspritDeco
-cd esprit-deco
+git clone https://github.com/MohandBir/Voyage
+cd liste-voyages
 ```
 
 ### 3. Configurer l'environnement
 
+Copiez le fichier `.env` :
 ```bash
 cp .env .env.local
 ```
 
 Modifiez `.env.local` :
 ```env
-DATABASE_URL="mysql://user:password@127.0.0.1:3306/esprit_deco"
-MAILER_DSN=smtp://...
-STRIPE_KEY=your_stripe_key
+DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8.0.32&charset=utf8mb4"
 ```
 
 ### 4. Lancer le projet avec Docker
@@ -84,7 +82,6 @@ docker compose up -d
 ```bash
 docker exec -it ecom_php sh
 php composer install
-php npm install && npm run build
 php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
