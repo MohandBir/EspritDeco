@@ -7,8 +7,8 @@
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-
+###< symfony/Fixtures ###
+src/DataFixtures/UserFixtures.php
 ###> phpunit/phpunit ###
 /phpunit.xml
 /.phpunit.cache/
