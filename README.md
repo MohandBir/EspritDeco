@@ -55,8 +55,8 @@ sudo systemctl start docker
 ### 2. Cloner le projet
 
 ```bash
-git clone https://github.com/MohandBir/Voyage
-cd liste-voyages
+git clone https://github.com/MohandBir/EspritDeco
+cd EsprisDeco
 ```
 
 ### 3. Configurer l'environnement
